@@ -11,6 +11,7 @@ import Sections from './components/Sections';
 export default function Home() {
   const [index, setIndex] = useState(0);
   const [view, setView] = useState('timeline');
+  const [filter, setFilter] = useState('All');
   const event = timelineData[index];
 
   useEffect(() => {
@@ -23,20 +24,37 @@ export default function Home() {
     return () => window.removeEventListener('keydown', handleKey);
   }, [view]);
 
+  const categories = ['All', 'Education', 'Work', 'Clubs', 'Sports'];
+
   return (
     <div className="min-h-screen font-sans">
       <Header setView={setView} />
-      <main className="pt-20 pb-60 text-center">
+      <main className="pt-20 pb-10 text-center">
         {view === 'timeline' ? (
           <>
             <Hero />
             <EventDisplay event={event} />
+            <div className="flex justify-center gap-4 my-6 flex-wrap">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setFilter(cat)}
+                  className={`px-4 py-1 rounded-full border transition ${
+                    filter === cat
+                      ? 'bg-blue-400 text-white border-blue-400'
+                      : 'text-gray-400 border-gray-700 hover:bg-gray-800'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+            <Timeline index={index} setIndex={setIndex} filter={filter} />
           </>
         ) : (
           <Sections view={view} setView={setView} />
         )}
       </main>
-      <Timeline index={index} setIndex={setIndex} />
     </div>
   );
 }
