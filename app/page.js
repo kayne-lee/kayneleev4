@@ -12,17 +12,19 @@ export default function Home() {
   const [index, setIndex] = useState(0);
   const [view, setView] = useState('timeline');
   const [filter, setFilter] = useState('All');
-  const event = timelineData[index];
+
+  const filteredData = filter === 'All' ? timelineData : timelineData.filter((e) => e.category === filter);
+  const event = filteredData[index] || filteredData[0];
 
   useEffect(() => {
     const handleKey = (e) => {
       if (view !== 'timeline') return;
-      if (e.key === 'ArrowRight') setIndex((i) => Math.min(i + 1, timelineData.length - 1));
+      if (e.key === 'ArrowRight') setIndex((i) => Math.min(i + 1, filteredData.length - 1));
       if (e.key === 'ArrowLeft') setIndex((i) => Math.max(i - 1, 0));
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [view]);
+  }, [view, filteredData.length]);
 
   const categories = ['All', 'Education', 'Work', 'Clubs', 'Sports'];
 
@@ -38,7 +40,10 @@ export default function Home() {
               {categories.map((cat) => (
                 <button
                   key={cat}
-                  onClick={() => setFilter(cat)}
+                  onClick={() => {
+                    setFilter(cat);
+                    setIndex(0);
+                  }}
                   className={`px-4 py-1 rounded-full border transition ${
                     filter === cat
                       ? 'bg-blue-400 text-white border-blue-400'

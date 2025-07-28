@@ -1,11 +1,11 @@
 export default function Hero() {
   return (
-    <div className="max-w-3xl mx-auto px-4">
-      <h1 className="text-5xl font-bold bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent mb-4">
-        Your Journey
+    <div className="mb-10">
+      <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white drop-shadow mb-4">
+        My Journey
       </h1>
-      <p className="text-lg text-gray-400 font-light">
-        Navigate through time using the timeline below
+      <p className="text-gray-400 max-w-xl mx-auto text-sm sm:text-base px-4">
+        Explore the major milestones in my life—from school, sports, and clubs to internships and professional work.
       </p>
     </div>
   );
